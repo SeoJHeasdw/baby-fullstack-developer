@@ -1176,11 +1176,694 @@ class TestFileUploadIntegration:
             
             assert upload_response.status_code == 200
             material_data = upload_response.json()
-            material_id = material_data["id"]
+            # 5. 다운로드 테스트
+            download_response = client.get(f"/api/materials/{material_id}/download")
+            assert download_response.status_code == 200
             
-            # 4. 업로드된 자료 조회
-            get_response = client.get(f"/api/materials/{material_id}")
-            assert get_response.status_code == 200
-            assert get_response.json()["title"] == "통합테스트 자료"
+            # 6. 목록에서 확인
+            list_response = client.get("/api/materials")
+            assert list_response.status_code == 200
+            materials = list_response.json()
+            assert len(materials) == 1
+            assert materials[0]["title"] == "통합테스트 자료"
             
-            # 5. 다운로드 테스
+        finally:
+            # 임시 파일 정리
+            os.unlink(temp_file_path)
+
+class TestAPIWorkflow:
+    def test_complete_crud_workflow(self):
+        """전체 CRUD 워크플로우 테스트"""
+        
+        # Create
+        category_data = {"name": "CRUD 테스트", "description": "CRUD 테스트용"}
+        create_response = client.post("/api/categories", json=category_data)
+        assert create_response.status_code == 200
+        category_id = create_response.json()["id"]
+        
+        # Read
+        read_response = client.get("/api/categories")
+        assert read_response.status_code == 200
+        assert len(read_response.json()) >= 1
+        
+        # Update (카테고리 업데이트 API가 있다면)
+        # update_data = {"name": "수정된 카테고리"}
+        # update_response = client.put(f"/api/categories/{category_id}", json=update_data)
+        # assert update_response.status_code == 200
+        
+        # Delete (카테고리 삭제 API가 있다면)  
+        # delete_response = client.delete(f"/api/categories/{category_id}")
+        # assert delete_response.status_code == 200
+```
+
+### 성능 테스트
+```python
+# tests/test_performance.py
+import pytest
+import asyncio
+import time
+from fastapi.testclient import TestClient
+from concurrent.futures import ThreadPoolExecutor
+from app.main import app
+
+client = TestClient(app)
+
+class TestPerformance:
+    def test_concurrent_requests(self):
+        """동시 요청 처리 성능 테스트"""
+        
+        def make_request():
+            return client.get("/api/materials")
+        
+        # 동시에 10개 요청 전송
+        start_time = time.time()
+        with ThreadPoolExecutor(max_workers=10) as executor:
+            futures = [executor.submit(make_request) for _ in range(10)]
+            results = [future.result() for future in futures]
+        
+        end_time = time.time()
+        
+        # 모든 요청이 성공했는지 확인
+        for response in results:
+            assert response.status_code == 200
+        
+        # 성능 검증 (10개 요청이 5초 이내에 완료되어야 함)
+        assert end_time - start_time < 5.0
+    
+    def test_response_time(self):
+        """응답 시간 테스트"""
+        start_time = time.time()
+        response = client.get("/api/materials")
+        end_time = time.time()
+        
+        assert response.status_code == 200
+        # 응답 시간이 1초 이내여야 함
+        assert end_time - start_time < 1.0
+    
+    def test_large_response_handling(self):
+        """대량 데이터 응답 처리 테스트"""
+        # 페이지네이션 테스트
+        response = client.get("/api/materials?limit=100")
+        assert response.status_code == 200
+        
+        # 응답 크기 확인
+        data = response.json()
+        assert isinstance(data, list)
+        # 실제 데이터가 있다면 100개 이하여야 함
+        assert len(data) <= 100
+```
+
+### 테스트 실행 스크립트
+```bash
+# 테스트 실행 방법
+pip install pytest pytest-asyncio httpx pytest-cov
+
+# 모든 테스트 실행
+pytest
+
+# 커버리지와 함께 실행
+pytest --cov=app --cov-report=html
+
+# 특정 테스트만 실행
+pytest tests/test_materials.py::TestMaterials::test_get_materials
+
+# 성능 테스트만 실행
+pytest tests/test_performance.py -v
+```
+
+---
+
+## 🚀 배포 및 CI/CD
+
+### Docker 설정
+```dockerfile
+# Dockerfile (개선된 버전)
+FROM python:3.9-slim
+
+# 시스템 패키지 설치
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libpq-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 작업 디렉터리 설정
+WORKDIR /app
+
+# 의존성 파일 복사 및 설치
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 애플리케이션 코드 복사
+COPY . .
+
+# 업로드 디렉터리 생성
+RUN mkdir -p uploads logs
+
+# 보안: 비root 사용자 생성
+RUN useradd --create-home --shell /bin/bash app_user && \
+    chown -R app_user:app_user /app
+USER app_user
+
+# 환경 변수
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+# 헬스체크
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# 포트 노출
+EXPOSE 8000
+
+# 애플리케이션 실행
+CMD ["gunicorn", "app.main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
+```
+
+### Docker Compose (운영환경)
+```yaml
+# docker-compose.prod.yml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://app_user:${DB_PASSWORD}@db:5432/hr_education_system
+      - SECRET_KEY=${SECRET_KEY}
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./uploads:/app/uploads
+      - ./logs:/app/logs
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=hr_education_system
+      - POSTGRES_USER=app_user
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/ssl/certs
+    depends_on:
+      - app
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+```
+
+### GitHub Actions CI/CD
+```yaml
+# .github/workflows/ci-cd.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_hr_system
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+    
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-asyncio pytest-cov
+    
+    - name: Run tests
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_hr_system
+      run: |
+        pytest --cov=app --cov-report=xml --cov-report=html
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Run security scan
+      run: |
+        pip install bandit safety
+        bandit -r app/
+        safety check -r requirements.txt
+
+  build-and-deploy:
+    needs: [test, security]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: |
+          your-dockerhub-username/hr-education-system:latest
+          your-dockerhub-username/hr-education-system:${{ github.sha }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+    
+    - name: Deploy to production
+      if: github.ref == 'refs/heads/main'
+      run: |
+        # 실제 배포 스크립트 (예: SSH, Kubernetes 등)
+        echo "Deploying to production..."
+```
+
+### 환경별 설정 관리
+```python
+# app/core/config.py (개선된 버전)
+from pydantic_settings import BaseSettings
+from typing import List, Optional
+import os
+from enum import Enum
+
+class Environment(str, Enum):
+    DEVELOPMENT = "development"
+    TESTING = "testing" 
+    STAGING = "staging"
+    PRODUCTION = "production"
+
+class Settings(BaseSettings):
+    # 환경 설정
+    environment: Environment = Environment.DEVELOPMENT
+    debug: bool = False
+    
+    # 데이터베이스
+    database_url: str
+    
+    # 보안
+    secret_key: str
+    algorithm: str = "HS256"
+    access_token_expire_minutes: int = 1440
+    
+    # Redis (캐싱)
+    redis_url: Optional[str] = None
+    
+    # 파일 업로드
+    max_file_size: int = 50  # MB
+    upload_dir: str = "./uploads"
+    allowed_file_types: List[str] = [
+        "pdf", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "txt", "mp4", "mov"
+    ]
+    
+    # CORS
+    backend_cors_origins: List[str] = []
+    
+    # 로깅
+    log_level: str = "INFO"
+    
+    # 모니터링
+    sentry_dsn: Optional[str] = None
+    
+    # 이메일 (알림용)
+    smtp_server: Optional[str] = None
+    smtp_port: int = 587
+    smtp_username: Optional[str] = None
+    smtp_password: Optional[str] = None
+    
+    class Config:
+        env_file = ".env"
+        case_sensitive = False
+
+    @property
+    def is_production(self) -> bool:
+        return self.environment == Environment.PRODUCTION
+    
+    @property
+    def is_development(self) -> bool:
+        return self.environment == Environment.DEVELOPMENT
+
+# 환경별 설정 로드
+def get_settings() -> Settings:
+    env = os.getenv("ENVIRONMENT", "development")
+    env_file = f".env.{env}"
+    
+    if os.path.exists(env_file):
+        return Settings(_env_file=env_file)
+    return Settings()
+
+settings = get_settings()
+```
+
+### Nginx 설정
+```nginx
+# nginx.conf
+events {
+    worker_connections 1024;
+}
+
+http {
+    upstream app_backend {
+        server app:8000;
+    }
+    
+    # 파일 업로드 크기 제한
+    client_max_body_size 100M;
+    
+    # Gzip 압축
+    gzip on;
+    gzip_types text/plain application/json application/javascript text/css;
+    
+    # 보안 헤더
+    add_header X-Frame-Options DENY;
+    add_header X-Content-Type-Options nosniff;
+    add_header X-XSS-Protection "1; mode=block";
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    
+    server {
+        listen 80;
+        server_name your-domain.com;
+        
+        # HTTPS 리다이렉트
+        return 301 https://$server_name$request_uri;
+    }
+    
+    server {
+        listen 443 ssl http2;
+        server_name your-domain.com;
+        
+        # SSL 설정
+        ssl_certificate /etc/ssl/certs/cert.pem;
+        ssl_certificate_key /etc/ssl/certs/key.pem;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+        
+        # API 프록시
+        location /api/ {
+            proxy_pass http://app_backend;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            
+            # 타임아웃 설정
+            proxy_connect_timeout 30s;
+            proxy_send_timeout 30s;
+            proxy_read_timeout 30s;
+        }
+        
+        # 정적 파일 서빙
+        location /uploads/ {
+            alias /app/uploads/;
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+        
+        # 프론트엔드 (SPA)
+        location / {
+            root /var/www/html;
+            try_files $uri $uri/ /index.html;
+            
+            # 캐시 설정
+            location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+                expires 1y;
+                add_header Cache-Control "public, immutable";
+            }
+        }
+        
+        # 헬스체크
+        location /health {
+            proxy_pass http://app_backend/health;
+            access_log off;
+        }
+    }
+    
+    # 로깅
+    error_log /var/log/nginx/error.log warn;
+    access_log /var/log/nginx/access.log combined;
+}
+```
+
+---
+
+## 📊 CursorAI 고급 활용
+
+### 복잡한 시스템 설계 요청
+```
+"FastAPI로 엔터프라이즈급 파일 관리 시스템을 설계해줘.
+
+요구사항:
+- JWT 기반 인증 + 역할별 권한
+- Redis 캐싱 + PostgreSQL
+- 파일 업로드 시 바이러스 스캔
+- API 레이트 리미팅
+- 전체적인 에러 처리 및 로깅
+- 헬스체크 및 메트릭 수집
+- Docker + CI/CD 파이프라인
+
+단계별로 구현 계획과 핵심 코드를 보여줘."
+```
+
+### 성능 최적화 요청
+```
+"FastAPI 앱의 응답 시간이 느려.
+
+현재 상황:
+- API 응답 시간 평균 2-3초
+- 동시 사용자 100명 이상
+- PostgreSQL 쿼리 복잡
+- 파일 업로드 처리 무거움
+
+다음 방법들로 최적화해줘:
+1. 데이터베이스 쿼리 최적화
+2. 캐싱 전략 적용
+3. 비동기 처리 개선
+4. 메모리 사용량 최적화
+
+실제 코드 예시와 함께 알려줘."
+```
+
+### 보안 강화 요청
+```
+"FastAPI 보안을 엔터프라이즈 수준으로 강화해줘.
+
+현재 취약점:
+- 파일 업로드 시 보안 검증 부족
+- API 레이트 리미팅 없음
+- 입력 검증 미흡
+- 로깅/모니터링 부족
+
+다음 보안 기능 구현해줘:
+- 파일 업로드 보안 (악성코드 검사)
+- API 보안 (레이트 리미팅, 입력 검증)
+- 인증/인가 강화
+- 보안 헤더 설정
+- 감사 로깅"
+```
+
+---
+
+## 📚 운영 관리
+
+### 모니터링 대시보드 설정
+```python
+# app/admin/dashboard.py
+from fastapi import APIRouter, Depends
+from fastapi.responses import HTMLResponse
+from ..core.deps import get_current_admin_user
+from ..core.metrics import metrics_collector
+from ..core.health import HealthChecker
+
+admin_router = APIRouter(prefix="/admin", tags=["관리자"])
+
+@admin_router.get("/dashboard", response_class=HTMLResponse)
+async def admin_dashboard(admin_user = Depends(get_current_admin_user)):
+    """관리자 대시보드"""
+    
+    # 시스템 메트릭 수집
+    metrics = metrics_collector.get_metrics()
+    health_status = {
+        "database": await HealthChecker.check_database(),
+        "disk": HealthChecker.check_disk_space(),
+        "memory": HealthChecker.check_memory()
+    }
+    
+    # HTML 템플릿 (실제로는 템플릿 엔진 사용)
+    dashboard_html = f"""
+    <html>
+    <head>
+        <title>HR 교육자료 시스템 관리자</title>
+        <style>
+            body {{ font-family: Arial, sans-serif; margin: 20px; }}
+            .metric {{ background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }}
+            .healthy {{ color: green; }}
+            .warning {{ color: orange; }}
+            .critical {{ color: red; }}
+        </style>
+    </head>
+    <body>
+        <h1>시스템 관리 대시보드</h1>
+        
+        <h2>시스템 상태</h2>
+        <div class="metric">
+            <strong>업타임:</strong> {metrics.get('uptime_seconds', 0):.1f}초
+        </div>
+        <div class="metric">
+            <strong>총 요청 수:</strong> {metrics.get('total_requests', 0)}
+        </div>
+        <div class="metric">
+            <strong>에러 수:</strong> {metrics.get('total_errors', 0)}
+        </div>
+        
+        <h2>헬스체크</h2>
+        <div class="metric">
+            <strong>데이터베이스:</strong> 
+            <span class="{health_status['database']['status']}">{health_status['database']['status']}</span>
+        </div>
+        <div class="metric">
+            <strong>디스크 여유공간:</strong> {health_status['disk']['free_percentage']:.1f}%
+        </div>
+        <div class="metric">
+            <strong>메모리 사용률:</strong> {health_status['memory']['used_percentage']:.1f}%
+        </div>
+        
+        <h2>API 엔드포인트별 통계</h2>
+        {_generate_endpoint_stats_html(metrics.get('endpoints', {}))}
+    </body>
+    </html>
+    """
+    
+    return dashboard_html
+
+def _generate_endpoint_stats_html(endpoint_stats: dict) -> str:
+    """엔드포인트 통계 HTML 생성"""
+    html = ""
+    for endpoint, stats in endpoint_stats.items():
+        html += f"""
+        <div class="metric">
+            <strong>{endpoint}</strong><br>
+            요청수: {stats['request_count']}, 
+            에러수: {stats['error_count']}, 
+            평균 응답시간: {stats['avg_response_time']}초,
+            에러율: {stats['error_rate']}%
+        </div>
+        """
+    return html
+```
+
+---
+
+## 📝 다음 단계
+
+고급 백엔드 기능이 완료되면:
+
+### ✅ 완료 확인 체크리스트
+- [ ] JWT 인증 시스템 구현 및 테스트
+- [ ] 캐싱 시스템 적용
+- [ ] 로깅 및 모니터링 설정
+- [ ] 보안 기능 (레이트 리미팅, 파일 검증) 적용
+- [ ] 자동화된 테스트 작성
+- [ ] Docker 컨테이너화
+- [ ] CI/CD 파이프라인 구성
+
+### 🔄 관련 가이드
+- **기본 백엔드**: [BACKEND_GUIDE.md](BACKEND_GUIDE.md)
+- **데이터베이스 고급**: [DATABASE_ADVANCED.md](DATABASE_ADVANCED.md)
+- **배포**: [DEPLOYMENT.md](DEPLOYMENT.md)
+
+### 💡 추가 고려사항
+- **마이크로서비스 아키텍처** 전환 고려
+- **Kubernetes** 배포 환경 구축
+- **API Gateway** 도입
+- **이벤트 기반 아키텍처** 적용
+
+---
+
+## 🔗 고급 학습 자료
+
+- [FastAPI 고급 기능](https://fastapi.tiangolo.com/advanced/)
+- [PostgreSQL 성능 튜닝](https://wiki.postgresql.org/wiki/Performance_Optimization)
+- [Docker 최적화](https://docs.docker.com/develop/dev-best-practices/)
+- [Kubernetes 가이드](https://kubernetes.io/docs/home/)
+- [API 보안 모범 사례](https://owasp.org/www-project-api-security/)
+
+---
+
+**🚀 엔터프라이즈급 백엔드 완성!**  
+이제 실제 운영 환경에서 사용할 수 있는 수준의 백엔드 시스템이 완성되었습니다!
