@@ -112,23 +112,32 @@ Week 3-4: 운영 환경을 위한 고급 기능 추가
 
 ## 🚀 빠른 시작
 
-### 1단계: 개발 환경 준비
+### 1단계: 학습 가이드 레포지토리 클론
 ```bash
-# 필수 도구 설치
-- CursorAI 또는 VS Code
-- PostgreSQL
-- Node.js & Python
-- Git
+# 학습 가이드 다운로드
+git clone https://github.com/your-username/baby-fullstack-developer.git
+cd baby-fullstack-developer
 
-# 프로젝트 클론
-git clone <repository-url>
+# 가이드 문서 확인
+ls docs/
+```
+
+### 2단계: 실제 프로젝트 레포지토리 생성
+```bash
+# 새 프로젝트 레포지토리 생성
+mkdir hr-education-system
 cd hr-education-system
+git init
+
+# 기본 구조 생성 (CursorAI와 함께)
+mkdir -p frontend backend uploads
+touch README.md docker-compose.yml
 ```
 
 ### 2단계: CursorAI 활용법 학습 ⭐
 ```bash
 # 🤖 CursorAI 실전 가이드 먼저 읽기 (중요!)
-docs/CURSOR_AI_GUIDE.md
+# baby-fullstack-developer/docs/CURSOR_AI_GUIDE.md
 
 # AI와 함께 개발하는 방법을 익히고 나서 다음 단계로 진행
 ```
@@ -136,7 +145,7 @@ docs/CURSOR_AI_GUIDE.md
 ### 3단계: 데이터베이스 설정
 ```bash
 # 💾 데이터베이스 가이드 따라하기
-docs/DATABASE_GUIDE.md
+# baby-fullstack-developer/docs/DATABASE_GUIDE.md
 
 # PostgreSQL 설치 → DBeaver 연결 → 테이블 생성
 ```
@@ -144,9 +153,10 @@ docs/DATABASE_GUIDE.md
 ### 4단계: 백엔드 개발
 ```bash
 # 🐍 백엔드 가이드 따라하기  
-docs/BACKEND_GUIDE.md
+# baby-fullstack-developer/docs/BACKEND_GUIDE.md
 
-cd backend
+# hr-education-system 레포지토리에서 구현
+cd hr-education-system/backend
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -156,9 +166,10 @@ uvicorn app.main:app --reload
 ### 5단계: 프론트엔드 개발
 ```bash
 # 🖥️ 프론트엔드 가이드 따라하기
-docs/FRONTEND_GUIDE.md
+# baby-fullstack-developer/docs/FRONTEND_GUIDE.md
 
-cd frontend
+# hr-education-system 레포지토리에서 구현
+cd hr-education-system/frontend
 npm install
 npm run dev
 ```
@@ -192,16 +203,27 @@ npm run dev
 
 ## 🎨 프로젝트 구조
 
+### 📚 **학습 가이드 레포지토리** (현재 위치)
 ```
-hr-education-system/
-├── 📚 docs/                     # 학습 가이드 문서
+baby-fullstack-developer/
+├── 📋 README.md                 # 전체 가이드 및 로드맵
+├── 📚 docs/                     # 단계별 학습 문서
 │   ├── CURSOR_AI_GUIDE.md       # 🆕 CursorAI 실전 활용법
 │   ├── DATABASE_GUIDE.md        # 데이터베이스 기본 (초보자용)
 │   ├── DATABASE_ADVANCED.md     # 데이터베이스 고급 (운영환경용)
 │   ├── BACKEND_GUIDE.md         # 백엔드 기본 (초보자용)
 │   ├── BACKEND_ADVANCED.md      # 백엔드 고급 (엔터프라이즈용)
 │   ├── FRONTEND_GUIDE.md        # 프론트엔드 개발
-│   └── DEPLOYMENT.md            # 배포 및 운영
+│   └── DEPLOYMENT.md            # 배포 및 운영(아직 생성 X)
+└── 🎯 templates/                # 초기 템플릿 파일들 (선택사항)(아직 생성 X)
+    ├── .env.example
+    ├── docker-compose.template.yml
+    └── package.template.json
+```
+
+### 🏗️ **실제 프로젝트 레포지토리** (별도 생성)
+```
+hr-education-system/
 ├── 🖥️ frontend/                 # Vue.js 프론트엔드
 │   ├── src/
 │   │   ├── components/          # 재사용 가능한 컴포넌트
@@ -216,9 +238,18 @@ hr-education-system/
 │   │   ├── routers/            # API 라우터
 │   │   └── core/               # 핵심 기능 (보안, 설정)
 │   └── requirements.txt
+├── 📁 uploads/                   # 업로드된 파일 저장소
 ├── 🐳 docker-compose.yml         # 개발 환경 설정
-└── 📋 README.md                 # 이 파일
+├── 🐳 docker-compose.prod.yml    # 운영 환경 설정
+├── ⚙️ .github/workflows/        # CI/CD 파이프라인
+│   └── ci-cd.yml
+└── 📝 README.md                 # 프로젝트별 README
 ```
+
+### 🔗 **두 레포지토리 연결**
+1. **학습 단계**: `baby-fullstack-developer` 가이드 문서 순서대로 학습
+2. **실제 구현**: `hr-education-system` 레포지토리에서 코딩 실습
+3. **CursorAI 활용**: 각 레포지토리의 컨텍스트에 집중하여 AI 도움 최적화
 
 ---
 
