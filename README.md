@@ -8,7 +8,7 @@
 ### 🎯 프로젝트 목적
 - HR팀 관리자가 교육자료를 업로드하고 관리할 수 있는 시스템
 - 전사 직원들이 교육자료를 자유롭게 열람하고 학습할 수 있는 플랫폼
-- 비전공자도 CursorAI를 활용하여 실제 동작하는 웹사이트 구현
+- **CursorAI를 활용하여** 비전공자도 실제 동작하는 웹사이트 구현
 
 ### 👥 대상 사용자
 - **관리자**: HR팀 교육담당자 (자료 업로드, 수정, 삭제 권한)
@@ -43,92 +43,109 @@
 - **DBeaver** - 데이터베이스 관리 도구
 
 ### Development Tools
-- **CursorAI** - AI 기반 코드 작성 도구
+- **CursorAI** - AI 기반 코드 작성 도구 ⭐
 - **Git** - 버전 관리
-- **VS Code** - 코드 에디터 (CursorAI 대안)
+- **Docker** - 컨테이너화
 
 ---
 
-## 🚀 프로젝트 구조
+## 📚 학습 가이드 (단계별)
 
+### 🟢 **1단계: 기본 구현 (필수)**
 ```
-hr-education-system/
-├── frontend/                 # Vue.js 프론트엔드
-│   ├── src/
-│   │   ├── components/      # 재사용 가능한 컴포넌트
-│   │   ├── views/          # 페이지 컴포넌트
-│   │   ├── router/         # 라우팅 설정
-│   │   ├── stores/         # 상태 관리 (Pinia)
-│   │   ├── types/          # TypeScript 타입 정의
-│   │   └── utils/          # 유틸리티 함수
-│   ├── public/             # 정적 파일
-│   └── package.json
-├── backend/                  # FastAPI 백엔드
-│   ├── app/
-│   │   ├── models/         # 데이터베이스 모델
-│   │   ├── schemas/        # Pydantic 스키마
-│   │   ├── routers/        # API 라우터
-│   │   ├── services/       # 비즈니스 로직
-│   │   ├── database.py     # 데이터베이스 설정
-│   │   └── main.py         # FastAPI 애플리케이션
-│   ├── requirements.txt    # Python 의존성
-│   └── Dockerfile          # 도커 설정
-├── database/                # 데이터베이스 스크립트
-│   ├── init.sql           # 초기 데이터베이스 스키마
-│   └── sample_data.sql    # 샘플 데이터
-├── docs/                    # 프로젝트 문서
-│   ├── FRONTEND_GUIDE.md   # 프론트엔드 개발 가이드
-│   ├── BACKEND_GUIDE.md    # 백엔드 개발 가이드
-│   ├── DATABASE_GUIDE.md   # 데이터베이스 설정 가이드
-│   └── DEPLOYMENT.md       # 배포 가이드
-├── .gitignore
-├── README.md
-└── docker-compose.yml      # 개발 환경 설정
+Week 1-2: 기본 환경 구축 및 동작하는 시스템 만들기
 ```
 
----
+| 순서 | 가이드 문서 | 소요 시간 | 설명 |
+|------|-------------|----------|------|
+| 1 | **[🤖 CursorAI 실전 가이드](docs/CURSOR_AI_GUIDE.md)** | 2시간 | AI 도구 활용법 마스터 |
+| 2 | **[💾 데이터베이스 기본](docs/DATABASE_GUIDE.md)** | 3시간 | PostgreSQL 설치 및 기본 테이블 생성 |
+| 3 | **[🐍 백엔드 기본](docs/BACKEND_GUIDE.md)** | 6시간 | FastAPI로 기본 API 구현 |
+| 4 | **[🖥️ 프론트엔드 개발](docs/FRONTEND_GUIDE.md)** | 8시간 | Vue.js로 사용자 인터페이스 구현 |
 
-## 🎯 학습 목표
+### 🟡 **2단계: 고급 기능 (권장)**
+```
+Week 3-4: 운영 환경을 위한 고급 기능 추가
+```
 
-이 프로젝트를 통해 다음을 학습할 수 있습니다:
-
-### 기술적 학습
-- **풀스택 웹 개발의 전체 흐름** 이해
-- **프론트엔드와 백엔드의 분리** 및 API 통신
-- **데이터베이스 설계** 및 관리
-- **파일 업로드/다운로드** 시스템 구현
-- **반응형 웹 디자인** 적용
-
-### AI 도구 활용
-- **CursorAI 활용법**: 코드 자동 완성, 리팩토링, 디버깅
-- **프롬프트 엔지니어링**: AI와 효과적으로 소통하는 방법
-- **AI 기반 개발 워크플로우**: 기존 개발 과정의 혁신
-
-### 실무 경험
-- **Git을 이용한 버전 관리**
-- **프로젝트 구조화** 및 코드 조직화
-- **API 설계** 및 문서화
-- **테스트 및 디버깅** 기법
+| 순서 | 가이드 문서 | 소요 시간 | 설명 |
+|------|-------------|----------|------|
+| 5 | **[💾 데이터베이스 고급](docs/DATABASE_ADVANCED.md)** | 4시간 | 성능 최적화, 백업, 모니터링 |
+| 6 | **[🐍 백엔드 고급](docs/BACKEND_ADVANCED.md)** | 8시간 | 인증, 보안, 캐싱, 테스트 자동화 |
+| 7 | **[🚀 배포 가이드](docs/DEPLOYMENT.md)** | 3시간 | Docker, CI/CD, 운영 환경 배포 |
 
 ---
 
-## 🏃‍♀️ 빠른 시작
+## 🎯 학습 목표별 로드맵
+
+### 🚀 **빠른 체험 (1주일)**
+```bash
+# 목표: 일단 동작하는 시스템 만들어보기
+1. CursorAI 설치 및 기본 사용법 (30분)
+2. 데이터베이스 기본 설정 (1시간)  
+3. 백엔드 기본 API 구현 (3시간)
+4. 프론트엔드 기본 화면 구현 (4시간)
+5. 통합 테스트 (30분)
+```
+
+### 💼 **실무 준비 (3주일)**
+```bash
+# 목표: 실제 회사에서 사용 가능한 수준
+1-7. 위의 모든 가이드 완주
+8. 성능 최적화 및 보안 강화
+9. 자동화된 테스트 및 배포 파이프라인 구축
+10. 모니터링 및 운영 관리 시스템 구축
+```
+
+### 🎓 **포트폴리오용 (1개월)**
+```bash
+# 목표: 취업/이직용 완성도 높은 프로젝트
+1-10. 위의 모든 과정 + 추가 기능
+- SSO 연동 (Google, Microsoft)
+- 고급 검색 기능 (전문 검색)
+- 실시간 알림 시스템
+- 모바일 앱 연동 준비
+- 상세한 문서화 및 발표 자료
+```
+
+---
+
+## 🚀 빠른 시작
 
 ### 1단계: 개발 환경 준비
 ```bash
+# 필수 도구 설치
+- CursorAI 또는 VS Code
+- PostgreSQL
+- Node.js & Python
+- Git
+
 # 프로젝트 클론
 git clone <repository-url>
 cd hr-education-system
 ```
 
-### 2단계: 데이터베이스 설정
+### 2단계: CursorAI 활용법 학습 ⭐
 ```bash
-# PostgreSQL 설치 및 데이터베이스 생성
-# 자세한 내용은 docs/DATABASE_GUIDE.md 참조
+# 🤖 CursorAI 실전 가이드 먼저 읽기 (중요!)
+docs/CURSOR_AI_GUIDE.md
+
+# AI와 함께 개발하는 방법을 익히고 나서 다음 단계로 진행
 ```
 
-### 3단계: 백엔드 실행
+### 3단계: 데이터베이스 설정
 ```bash
+# 💾 데이터베이스 가이드 따라하기
+docs/DATABASE_GUIDE.md
+
+# PostgreSQL 설치 → DBeaver 연결 → 테이블 생성
+```
+
+### 4단계: 백엔드 개발
+```bash
+# 🐍 백엔드 가이드 따라하기  
+docs/BACKEND_GUIDE.md
+
 cd backend
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
@@ -136,8 +153,11 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-### 4단계: 프론트엔드 실행
+### 5단계: 프론트엔드 개발
 ```bash
+# 🖥️ 프론트엔드 가이드 따라하기
+docs/FRONTEND_GUIDE.md
+
 cd frontend
 npm install
 npm run dev
@@ -145,104 +165,175 @@ npm run dev
 
 ---
 
-## 📚 학습 로드맵
+## 🤖 CursorAI 특화 기능
 
-### Week 1: 환경 설정 및 기초 이해
-- [ ] 개발 도구 설치 (CursorAI, PostgreSQL, DBeaver)
-- [ ] 기본 프로젝트 구조 생성
-- [ ] 간단한 "Hello World" 애플리케이션 실행
-- [ ] **가이드**: `docs/DATABASE_GUIDE.md` 완료
+이 프로젝트는 **CursorAI의 강력한 기능**을 최대한 활용하도록 설계되었습니다:
 
-### Week 2-3: 백엔드 개발
-- [ ] FastAPI 기본 개념 학습
-- [ ] 데이터베이스 모델 설계
-- [ ] 기본 CRUD API 구현
-- [ ] 파일 업로드/다운로드 API 구현
-- [ ] **가이드**: `docs/BACKEND_GUIDE.md` 완료
+### ✨ **AI 페어 프로그래밍**
+- 단계별 구현 가이드에 **실제 프롬프트 예시** 포함
+- 에러 해결 시 AI와 협업하는 방법
+- 코드 리뷰 및 최적화 요청 패턴
 
-### Week 4-5: 프론트엔드 개발
-- [ ] Vue.js + TypeScript 기초 학습
-- [ ] Tailwind CSS로 UI 구성
-- [ ] 컴포넌트 설계 및 구현
-- [ ] 라우팅 및 상태 관리
-- [ ] **가이드**: `docs/FRONTEND_GUIDE.md` 완료
+### 🎯 **스마트 개발 워크플로우**
+```bash
+# 예시: 컴포넌트 구현 시
+1. 요구사항을 명확히 정의
+2. CursorAI에게 구체적인 프롬프트 제공
+3. 생성된 코드 리뷰 및 이해
+4. 테스트 및 개선 반복
+```
 
-### Week 6: 통합 및 완성
-- [ ] 프론트엔드-백엔드 연결
-- [ ] 관리자 기능 구현
-- [ ] UI/UX 개선
-- [ ] 테스트 및 버그 수정
+### 📚 **학습 가속화**
+- **초보자**: AI가 설명해주는 코드로 빠른 학습
+- **경험자**: 반복 작업 자동화로 핵심 로직에 집중
+- **모든 레벨**: 최신 베스트 프랙티스 자동 적용
 
 ---
 
-## 🤖 CursorAI 활용 전략
+## 🎨 프로젝트 구조
 
-### 효과적인 개발 접근법
-1. **단계별 구현**: 큰 기능을 작은 단위로 나누어서 구현
-2. **AI와 협업**: 각 단계마다 CursorAI에게 명확한 요구사항 전달
-3. **코드 리뷰**: 완성된 코드에 대해 AI에게 개선점 문의
-4. **문제 해결**: 에러 발생 시 AI에게 디버깅 도움 요청
-
-### 권장 프롬프트 패턴
 ```
-# 기능 구현 요청
-"Vue 3 + TypeScript로 교육자료 카드 컴포넌트를 만들어줘. 
-제목, 설명, 파일 크기, 업로드 날짜, 다운로드 버튼이 포함되어야 해."
+hr-education-system/
+├── 📚 docs/                     # 학습 가이드 문서
+│   ├── CURSOR_AI_GUIDE.md       # 🆕 CursorAI 실전 활용법
+│   ├── DATABASE_GUIDE.md        # 데이터베이스 기본 (초보자용)
+│   ├── DATABASE_ADVANCED.md     # 데이터베이스 고급 (운영환경용)
+│   ├── BACKEND_GUIDE.md         # 백엔드 기본 (초보자용)
+│   ├── BACKEND_ADVANCED.md      # 백엔드 고급 (엔터프라이즈용)
+│   ├── FRONTEND_GUIDE.md        # 프론트엔드 개발
+│   └── DEPLOYMENT.md            # 배포 및 운영
+├── 🖥️ frontend/                 # Vue.js 프론트엔드
+│   ├── src/
+│   │   ├── components/          # 재사용 가능한 컴포넌트
+│   │   ├── views/              # 페이지 컴포넌트
+│   │   ├── stores/             # 상태 관리 (Pinia)
+│   │   └── services/           # API 통신
+│   └── package.json
+├── 🐍 backend/                   # FastAPI 백엔드
+│   ├── app/
+│   │   ├── models/             # 데이터베이스 모델
+│   │   ├── schemas/            # API 스키마
+│   │   ├── routers/            # API 라우터
+│   │   └── core/               # 핵심 기능 (보안, 설정)
+│   └── requirements.txt
+├── 🐳 docker-compose.yml         # 개발 환경 설정
+└── 📋 README.md                 # 이 파일
+```
 
-# 에러 해결 요청
+---
+
+## 🎯 학습 성과
+
+이 프로젝트를 완주하면 다음을 습득할 수 있습니다:
+
+### 🛠️ **기술적 역량**
+- **풀스택 웹 개발**: 프론트엔드 + 백엔드 + 데이터베이스
+- **모던 개발 스택**: Vue 3, FastAPI, PostgreSQL
+- **API 설계**: RESTful API 설계 및 구현
+- **데이터베이스 설계**: 정규화, 인덱싱, 성능 최적화
+- **보안**: 인증, 인가, 파일 보안, API 보안
+
+### 🤖 **AI 시대 개발 역량**
+- **CursorAI 마스터**: AI 기반 개발 워크플로우
+- **프롬프트 엔지니어링**: AI와 효과적으로 소통하는 방법
+- **AI 페어 프로그래밍**: 개발 생산성 10배 향상
+
+### 💼 **실무 경험**
+- **Git 워크플로우**: 브랜치 전략, PR 리뷰
+- **테스트 자동화**: 단위 테스트, 통합 테스트
+- **CI/CD**: 자동화된 빌드 및 배포
+- **모니터링**: 로깅, 메트릭, 헬스체크
+
+---
+
+## 🏃‍♀️ 학습 진행 가이드
+
+### 📅 **일정별 체크리스트**
+
+#### Week 1: AI 도구 + 기본 환경 구축
+- [ ] **Day 1**: CursorAI 설치 및 기본 사용법 익히기
+- [ ] **Day 2**: PostgreSQL 설치 및 데이터베이스 설정
+- [ ] **Day 3-4**: FastAPI 백엔드 기본 구현
+- [ ] **Day 5-7**: Vue.js 프론트엔드 기본 구현
+
+#### Week 2: 기능 완성 및 통합
+- [ ] **Day 8-10**: 파일 업로드/다운로드 기능 구현
+- [ ] **Day 11-12**: 검색 및 카테고리 기능 구현  
+- [ ] **Day 13-14**: 프론트엔드-백엔드 통합 테스트
+
+#### Week 3-4: 고급 기능 (선택)
+- [ ] **Week 3**: 인증 시스템, 보안 강화, 성능 최적화
+- [ ] **Week 4**: 테스트 자동화, CI/CD, 배포
+
+### 🎯 **마일스톤**
+1. **🟢 MVP 완성**: 기본 기능 모두 동작
+2. **🟡 베타 버전**: 실제 사용 가능한 수준
+3. **🔴 프로덕션**: 운영 환경 배포 가능
+
+---
+
+## 🆘 도움이 필요할 때
+
+### 🤖 **CursorAI 활용하기**
+```bash
+# 막혔을 때 CursorAI에게 물어보기
 "다음 에러가 발생했어: [에러 메시지]
 코드는: [관련 코드]
 어떻게 해결할까?"
-
-# 코드 개선 요청
-"이 컴포넌트의 성능과 가독성을 개선할 방법 알려줘: [코드]"
 ```
 
----
-
-## 🎯 향후 확장 아이디어
-
-### Phase 2: 기본 기능 확장
-- **알림 시스템**: 새로운 자료 업로드 알림
-- **즐겨찾기**: 개인별 즐겨찾는 자료 관리
-- **댓글 시스템**: 자료별 질문과 답변
-- **통계 대시보드**: 자료별 다운로드 통계
-
-### Phase 3: 고급 기능
-- **SSO 연동**: Active Directory, Google Workspace 등
-- **동영상 스트리밍**: 비디오 교육자료 재생
-- **퀴즈 시스템**: 학습 후 이해도 체크
-- **모바일 앱**: 모바일 전용 앱 개발
-
----
-
-## 📞 지원 및 문의
-
-### 학습 리소스
+### 📚 **추가 학습 리소스**
 - [FastAPI 공식 문서](https://fastapi.tiangolo.com/)
 - [Vue.js 공식 가이드](https://vuejs.org/guide/)
-- [TypeScript 핸드북](https://www.typescriptlang.org/docs/)
+- [PostgreSQL 튜토리얼](https://www.postgresql.org/docs/current/tutorial.html)
 - [Tailwind CSS 문서](https://tailwindcss.com/docs)
 
-### 개발 가이드
-- **데이터베이스 설정**: [DATABASE_GUIDE.md](docs/DATABASE_GUIDE.md)
-- **백엔드 개발**: [BACKEND_GUIDE.md](docs/BACKEND_GUIDE.md)
-- **프론트엔드 개발**: [FRONTEND_GUIDE.md](docs/FRONTEND_GUIDE.md)
-- **배포**: [DEPLOYMENT.md](docs/DEPLOYMENT.md)
+### 💬 **커뮤니티**
+- GitHub Issues를 통한 질문/답변
+- 개발 진행 상황 공유
+- 코드 리뷰 요청
 
 ---
 
-## 📝 다음 단계
+## 🔮 향후 확장 아이디어
 
-1. ✅ **README.md** 확인 완료
-2. 🔄 **[DATABASE_GUIDE.md](docs/DATABASE_GUIDE.md)** 읽고 데이터베이스 설정
-3. 🔄 **[BACKEND_GUIDE.md](docs/BACKEND_GUIDE.md)** 따라서 백엔드 구현
-4. 🔄 **[FRONTEND_GUIDE.md](docs/FRONTEND_GUIDE.md)** 따라서 프론트엔드 구현
+### 🚀 **Phase 2: 고급 기능**
+- **실시간 알림**: WebSocket 기반 실시간 업데이트
+- **고급 검색**: ElasticSearch 연동, 전문 검색
+- **소셜 기능**: 댓글, 좋아요, 즐겨찾기
+- **분석 대시보드**: 사용자 행동 분석, 통계
+
+### 🌟 **Phase 3: 확장**
+- **모바일 앱**: React Native 또는 Flutter
+- **마이크로서비스**: 아키텍처 분리 및 확장
+- **AI 추천**: 개인화된 교육자료 추천
+- **다국어 지원**: i18n 국제화
+
+---
+
+## 📞 Contact & Support
+
+### 🙋‍♂️ **프로젝트 관리자**
+- **GitHub**: [@your-username](https://github.com/your-username)
+- **Email**: your-email@example.com
+
+### 🤝 **기여하기**
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 라이센스
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 **🎉 성균관대 빅데이터학과 진학을 축하드립니다!**  
-완전 축하 ^_^
+
 이 프로젝트가 개발자로서의 첫 걸음에 도움이 되길 바랍니다.
 
 ---
