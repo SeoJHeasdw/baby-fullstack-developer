@@ -1,7 +1,22 @@
-# 🎓 HR 교육자료 관리 시스템
+🎓 HR 교육자료 관리 시스템
 
-> **CursorAI와 함께하는 풀스택 웹 개발 프로젝트**  
-> HR팀을 위한 교육자료 관리 및 공유 플랫폼
+CursorAI와 함께하는 풀스택 웹 개발 프로젝트
+HR팀을 위한 교육자료 관리 및 공유 플랫폼 + 실무 Git 워크플로우 마스터
+
+🚀 30초 요약
+**"개발 완전 초보자"**가 **"실무 가능한 개발자"**가 되는 여정 🌟
+
+✅ 실제 동작하는 웹사이트 구축 (2주면 완성!)
+🤖 CursorAI 마스터 - AI와 함께하는 스마트 개발
+💼 실무 스킬 - Git, 배포, 팀 협업까지
+🎯 포트폴리오 - 취업/이직에 바로 활용 가능
+
+📊 완주하면 이런 것들을 할 수 있어요:
+
+Vue.js + FastAPI + PostgreSQL 풀스택 개발
+GitHub 기반 협업 및 코드 관리
+Docker 배포 및 CI/CD 파이프라인 구축
+CursorAI로 개발 생산성 10배 향상
 
 ## 📋 프로젝트 개요
 
@@ -62,6 +77,7 @@ Week 1-2: 기본 환경 구축 및 동작하는 시스템 만들기
 | 2 | **[💾 데이터베이스 기본](docs/DATABASE_GUIDE.md)** | 3시간 | PostgreSQL 설치 및 기본 테이블 생성 |
 | 3 | **[🐍 백엔드 기본](docs/BACKEND_GUIDE.md)** | 6시간 | FastAPI로 기본 API 구현 |
 | 4 | **[🖥️ 프론트엔드 개발](docs/FRONTEND_GUIDE.md)** | 8시간 | Vue.js로 사용자 인터페이스 구현 |
+| 5 | **[🖥️ GIT 소스 관리](docs/GIT_GUIDE.md)** | 꾸준히 | git을 이용하여 소스의 버전&형상 관리 |
 
 ### 🟡 **2단계: 고급 기능 (권장)**
 ```
@@ -134,7 +150,7 @@ mkdir -p frontend backend uploads
 touch README.md docker-compose.yml
 ```
 
-### 2단계: CursorAI 활용법 학습 ⭐
+### 3단계: CursorAI 활용법 학습 ⭐
 ```bash
 # 🤖 CursorAI 실전 가이드 먼저 읽기 (중요!)
 # baby-fullstack-developer/docs/CURSOR_AI_GUIDE.md
@@ -142,7 +158,18 @@ touch README.md docker-compose.yml
 # AI와 함께 개발하는 방법을 익히고 나서 다음 단계로 진행
 ```
 
-### 3단계: 데이터베이스 설정
+### 4단계: 프론트엔드 개발
+```bash
+# 🖥️ 프론트엔드 가이드 따라하기
+# baby-fullstack-developer/docs/FRONTEND_GUIDE.md
+
+# hr-education-system 레포지토리에서 구현
+cd hr-education-system/frontend
+npm install
+npm run dev
+```
+
+### 5단계: 데이터베이스 설정
 ```bash
 # 💾 데이터베이스 가이드 따라하기
 # baby-fullstack-developer/docs/DATABASE_GUIDE.md
@@ -150,7 +177,7 @@ touch README.md docker-compose.yml
 # PostgreSQL 설치 → DBeaver 연결 → 테이블 생성
 ```
 
-### 4단계: 백엔드 개발
+### 6단계: 백엔드 개발
 ```bash
 # 🐍 백엔드 가이드 따라하기  
 # baby-fullstack-developer/docs/BACKEND_GUIDE.md
@@ -161,17 +188,6 @@ python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
-```
-
-### 5단계: 프론트엔드 개발
-```bash
-# 🖥️ 프론트엔드 가이드 따라하기
-# baby-fullstack-developer/docs/FRONTEND_GUIDE.md
-
-# hr-education-system 레포지토리에서 구현
-cd hr-education-system/frontend
-npm install
-npm run dev
 ```
 
 ---
@@ -214,6 +230,7 @@ baby-fullstack-developer/
 │   ├── BACKEND_GUIDE.md         # 백엔드 기본 (초보자용)
 │   ├── BACKEND_ADVANCED.md      # 백엔드 고급 (엔터프라이즈용)
 │   ├── FRONTEND_GUIDE.md        # 프론트엔드 개발
+│   ├── GIT_GUIDE.md             # Git 사용법 기본&고급
 │   └── DEPLOYMENT.md            # 배포 및 운영(아직 생성 X)
 └── 🎯 templates/                # 초기 템플릿 파일들 (선택사항)(아직 생성 X)
     ├── .env.example
@@ -258,6 +275,7 @@ hr-education-system/
 이 프로젝트를 완주하면 다음을 습득할 수 있습니다:
 
 ### 🛠️ **기술적 역량**
+- **소스 관리**: 가장 빈번하게 사용되는 GIT을 잘 사용할 수 있음
 - **풀스택 웹 개발**: 프론트엔드 + 백엔드 + 데이터베이스
 - **모던 개발 스택**: Vue 3, FastAPI, PostgreSQL
 - **API 설계**: RESTful API 설계 및 구현
