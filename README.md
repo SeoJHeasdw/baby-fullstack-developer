@@ -13,10 +13,11 @@ HR팀을 위한 교육자료 관리 및 공유 플랫폼 + 실무 Git 워크플�
 
 📊 완주하면 이런 것들을 할 수 있어요:
 
-Vue.js + FastAPI + PostgreSQL 풀스택 개발
-GitHub 기반 협업 및 코드 관리
-Docker 배포 및 CI/CD 파이프라인 구축
-CursorAI로 개발 생산성 10배 향상
+🐍 Python 기초부터 심화까지 완전 마스터 (비전공자도 OK!)
+🔥 Vue.js + FastAPI + PostgreSQL 풀스택 개발
+📦 GitHub 기반 협업 및 코드 관리  
+🚀 Docker 배포 및 CI/CD 파이프라인 구축
+🤖 CursorAI로 개발 생산성 10배 향상
 
 ## 📋 프로젝트 개요
 
@@ -73,11 +74,13 @@ Week 1-2: 기본 환경 구축 및 동작하는 시스템 만들기
 
 | 순서 | 가이드 문서 | 소요 시간 | 설명 |
 |------|-------------|----------|------|
-| 1 | **[🤖 CursorAI 실전 가이드](docs/CURSOR_AI_GUIDE.md)** | 2시간 | AI 도구 활용법 마스터 |
-| 2 | **[💾 데이터베이스 기본](docs/DATABASE_GUIDE.md)** | 3시간 | PostgreSQL 설치 및 기본 테이블 생성 |
-| 3 | **[🐍 백엔드 기본](docs/BACKEND_GUIDE.md)** | 6시간 | FastAPI로 기본 API 구현 |
-| 4 | **[🖥️ 프론트엔드 개발](docs/FRONTEND_GUIDE.md)** | 8시간 | Vue.js로 사용자 인터페이스 구현 |
-| 5 | **[🖥️ GIT 소스 관리](docs/GIT_GUIDE.md)** | 꾸준히 | git을 이용하여 소스의 버전&형상 관리 |
+| 0 | **[🐍 파이썬 기초](docs/PYTHON_GUIDE.md)** | 4시간 | 빅데이터학과 비전공자를 위한 파이썬 완전 기초 |
+| 1 | **[🖖 Vue.js 기초 개념](docs/VUE_GUIDE.md)** | 1시간 | Vue, TypeScript, Tailwind 기본 개념 |
+| 2 | **[🤖 CursorAI 실전 가이드](docs/CURSOR_AI_GUIDE.md)** | 2시간 | AI 도구 활용법 마스터 |
+| 3 | **[💾 데이터베이스 기본](docs/DATABASE_GUIDE.md)** | 3시간 | PostgreSQL 설치 및 기본 테이블 생성 |
+| 4 | **[🐍 백엔드 기본](docs/BACKEND_GUIDE.md)** | 6시간 | FastAPI로 기본 API 구현 |
+| 5 | **[🖥️ 프론트엔드 개발](docs/FRONTEND_GUIDE.md)** | 8시간 | Vue.js로 사용자 인터페이스 구현 |
+| 6 | **[🖥️ GIT 소스 관리](docs/GIT_GUIDE.md)** | 꾸준히 | git을 이용하여 소스의 버전&형상 관리 |
 
 ### 🟡 **2단계: 고급 기능 (권장)**
 ```
@@ -86,9 +89,10 @@ Week 3-4: 운영 환경을 위한 고급 기능 추가
 
 | 순서 | 가이드 문서 | 소요 시간 | 설명 |
 |------|-------------|----------|------|
-| 5 | **[💾 데이터베이스 고급](docs/DATABASE_ADVANCED.md)** | 4시간 | 성능 최적화, 백업, 모니터링 |
-| 6 | **[🐍 백엔드 고급](docs/BACKEND_ADVANCED.md)** | 8시간 | 인증, 보안, 캐싱, 테스트 자동화 |
-| 7 | **[🚀 배포 가이드](docs/DEPLOYMENT.md)** | 3시간 | Docker, CI/CD, 운영 환경 배포 |
+| 5 | **[🐍 파이썬 심화](docs/PYTHON_ADVANCED.md)** | 6시간 | 비동기, 데코레이터, 성능최적화 등 심화 개념 |
+| 6 | **[💾 데이터베이스 고급](docs/DATABASE_ADVANCED.md)** | 4시간 | 성능 최적화, 백업, 모니터링 |
+| 7 | **[🐍 백엔드 고급](docs/BACKEND_ADVANCED.md)** | 8시간 | 인증, 보안, 캐싱, 테스트 자동화 |
+| 8 | **[🚀 배포 가이드](docs/DEPLOYMENT.md)** | 3시간 | Docker, CI/CD, 운영 환경 배포 |
 
 ---
 
@@ -97,11 +101,13 @@ Week 3-4: 운영 환경을 위한 고급 기능 추가
 ### 🚀 **빠른 체험 (1주일)**
 ```bash
 # 목표: 일단 동작하는 시스템 만들어보기
-1. CursorAI 설치 및 기본 사용법 (30분)
-2. 데이터베이스 기본 설정 (1시간)  
-3. 백엔드 기본 API 구현 (3시간)
-4. 프론트엔드 기본 화면 구현 (4시간)
-5. 통합 테스트 (30분)
+0. 파이썬 기초 개념 익히기 (2시간) - 비전공자 필수
+1. Vue.js 기본 개념 이해 (1시간)
+2. CursorAI 설치 및 기본 사용법 (30분)
+3. 데이터베이스 기본 설정 (1시간)  
+4. 백엔드 기본 API 구현 (3시간)
+5. 프론트엔드 기본 화면 구현 (4시간)
+6. 통합 테스트 (30분)
 ```
 
 ### 💼 **실무 준비 (3주일)**
@@ -224,6 +230,9 @@ uvicorn app.main:app --reload
 baby-fullstack-developer/
 ├── 📋 README.md                 # 전체 가이드 및 로드맵
 ├── 📚 docs/                     # 단계별 학습 문서
+│   ├── PYTHON_GUIDE.md          # 🆕 파이썬 기초 완전정복 (비전공자용)
+│   ├── PYTHON_ADVANCED.md       # 🆕 파이썬 심화 (빅데이터학과용)
+│   ├── VUE_GUIDE.md             # 🆕 Vue.js 기초 개념 (초보자용)
 │   ├── CURSOR_AI_GUIDE.md       # 🆕 CursorAI 실전 활용법
 │   ├── DATABASE_GUIDE.md        # 데이터베이스 기본 (초보자용)
 │   ├── DATABASE_ADVANCED.md     # 데이터베이스 고급 (운영환경용)
@@ -275,12 +284,13 @@ hr-education-system/
 이 프로젝트를 완주하면 다음을 습득할 수 있습니다:
 
 ### 🛠️ **기술적 역량**
-- **소스 관리**: 가장 빈번하게 사용되는 GIT을 잘 사용할 수 있음
-- **풀스택 웹 개발**: 프론트엔드 + 백엔드 + 데이터베이스
-- **모던 개발 스택**: Vue 3, FastAPI, PostgreSQL
-- **API 설계**: RESTful API 설계 및 구현
-- **데이터베이스 설계**: 정규화, 인덱싱, 성능 최적화
-- **보안**: 인증, 인가, 파일 보안, API 보안
+- **🐍 Python 마스터**: 기초 문법부터 고급 프로그래밍까지 완전 정복
+- **💻 소스 관리**: 가장 빈번하게 사용되는 GIT을 잘 사용할 수 있음
+- **🔄 풀스택 웹 개발**: 프론트엔드 + 백엔드 + 데이터베이스
+- **⚡ 모던 개발 스택**: Vue 3, FastAPI, PostgreSQL
+- **🌐 API 설계**: RESTful API 설계 및 구현
+- **💾 데이터베이스 설계**: 정규화, 인덱싱, 성능 최적화
+- **🔒 보안**: 인증, 인가, 파일 보안, API 보안
 
 ### 🤖 **AI 시대 개발 역량**
 - **CursorAI 마스터**: AI 기반 개발 워크플로우
@@ -299,8 +309,8 @@ hr-education-system/
 
 ### 📅 **일정별 체크리스트**
 
-#### Week 1: AI 도구 + 기본 환경 구축
-- [ ] **Day 1**: CursorAI 설치 및 기본 사용법 익히기
+#### Week 1: 기초 학습 + 기본 환경 구축
+- [ ] **Day 1**: 파이썬 기초 학습 (비전공자 필수) + CursorAI 설치
 - [ ] **Day 2**: PostgreSQL 설치 및 데이터베이스 설정
 - [ ] **Day 3-4**: FastAPI 백엔드 기본 구현
 - [ ] **Day 5-7**: Vue.js 프론트엔드 기본 구현
@@ -311,7 +321,7 @@ hr-education-system/
 - [ ] **Day 13-14**: 프론트엔드-백엔드 통합 테스트
 
 #### Week 3-4: 고급 기능 (선택)
-- [ ] **Week 3**: 인증 시스템, 보안 강화, 성능 최적화
+- [ ] **Week 3**: 파이썬 심화 학습, 인증 시스템, 보안 강화, 성능 최적화
 - [ ] **Week 4**: 테스트 자동화, CI/CD, 배포
 
 ### 🎯 **마일스톤**
@@ -384,7 +394,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **🎉 성균관대 빅데이터학과 진학을 축하드립니다!**  
 
 이 프로젝트가 개발자로서의 첫 걸음에 도움이 되길 바랍니다.
-
+화이팅~
 ---
 
 *Made with ❤️ and CursorAI*
